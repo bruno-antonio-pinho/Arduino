@@ -1,8 +1,8 @@
 
 #include <AFMotor.h>
  
-AF_DCMotor motor_L(3);
-AF_DCMotor motor_R(4);
+AF_DCMotor motor_L(2);
+AF_DCMotor motor_R(1);
 
 void move_M(int dir, int motor_speed); // Move conforme a direção escolhida.
 void move_MFW(int motor_speed); // Move o robô para frente.

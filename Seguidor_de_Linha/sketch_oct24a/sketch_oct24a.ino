@@ -1,13 +1,3 @@
-//Programa : Motor shield com sensor TCRT5000
-//Adaptacoes : FILIPEFLOP
-//
-//Baseado no programa original de Michael McRoberts
-
-#include <AFMotor.h>
-
-AF_DCMotor motor_esq(2); //Seleciona o motor 1
-AF_DCMotor motor_dir(1); //Seleciona o motor 4
-
 int SENSOR1, SENSOR2, SENSOR3;
 
 //deslocamentos de calibracao
@@ -15,9 +5,9 @@ int leftOffset = 0, rightOffset = 0, centre = 0;
 //pinos para a velocidade e direcao do motor
 int speed1 = 3, speed2 = 11, direction1 = 12, direction2 = 13;
 //velocidade inicial e deslocamento de rotacao
-int startSpeed = 175, rotate = 50;
+int startSpeed = 255, rotate = 30;
 //limiar do sensor
-int threshold =20;
+int threshold = 30;
 //velocidades iniciais dos motores esquerdo e direito
 int left = startSpeed, right = startSpeed;
 
@@ -46,40 +36,26 @@ void calibrate()
 
 void setup()
 {
-  calibrate();
+  //calibrate();
   delay(3000);
+  Serial.begin(115200);
 }
 
 void loop()
 {
   //utiliza a mesma velocidade em ambos os motores
-  left = startSpeed;
-  right = startSpeed;
+    //left = startSpeed;
+    //right = startSpeed;
+    //Serial.println("Segue reto.");
+    Serial.print("sensor 1: ");
+    Serial.println(analogRead(8));
+    Serial.print("sensor 2: ");
+    Serial.println(analogRead(9));
+    Serial.print("sensor 3: ");
+    Serial.print(analogRead(10));
+    Serial.println("\n ");
 
-  //le os sensores e adiciona os deslocamentos
-  SENSOR1 = analogRead(8) + leftOffset;
-  SENSOR2 = analogRead(9);
-  SENSOR3 = analogRead(10) + rightOffset;
-
-  //Se SENSOR1 for maior do que o sensor do centro + limiar,
-// vire para a direita
-  if (SENSOR1 > SENSOR2+threshold)
-  {
-    left = startSpeed + rotate;
-    right = startSpeed - rotate;
-  }
-
-  //Se SENSOR3 for maior do que o sensor do centro + limiar,
-// vire para a esquerda
-  if (SENSOR3 > (SENSOR2+threshold))
-  {
-    left = startSpeed - rotate;
-    right = startSpeed + rotate;
-  }
-
-  //Envia os valores de velocidade para os motores
-  motor_esq.setSpeed(left);
-  motor_esq.run(FORWARD);
-  motor_dir.setSpeed(right);
-  motor_dir.run(FORWARD);
 }
+
+// testar saida dos sensores 
+
