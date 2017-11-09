@@ -14,11 +14,16 @@ void setup() {
 }
 
 void loop() {
+  uint8_t msg[3];
+  
    if (Serial.available()) {
     Serial.println("Estou aqui: ");
-    int dir = Serial.read();
-    int motor_speed = Serial.read();
-    manual_move.move_M(dir, motor_speed, motor_L, motor_R);
+    Serial.readBytes(msg, 3);
+    if(msg[0] = 125){
+    	int dir = msg[1] - 48;
+    	int motor_speed = msg[2];
+    	manual_move.move_M(dir, motor_speed, motor_L, motor_R);
+   }
   }
 
 }
