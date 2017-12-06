@@ -4,13 +4,13 @@ Manual::Manual(void){
 }
 
 void Manual::move_M(int dir, int motor_speed, AF_DCMotor motor_L, AF_DCMotor motor_R){
-  if(dir == 0){
+  if(dir == 1){
     move_MFW(motor_speed, motor_L, motor_R);
-  }else if(dir == 1){
-     move_MBW(motor_speed, motor_L, motor_R);
   }else if(dir == 2){
-     move_ML(motor_speed, motor_L, motor_R);
+     move_MBW(motor_speed, motor_L, motor_R);
   }else if(dir == 3){
+     move_ML(motor_speed, motor_L, motor_R);
+  }else if(dir == 4){
      move_MR(motor_speed, motor_L, motor_R);
   }else{
     move_MS(motor_L, motor_R);
