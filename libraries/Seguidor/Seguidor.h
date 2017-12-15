@@ -7,7 +7,7 @@ class Seguidor{
 
   public:
     Seguidor(void);
-    void move_linha(AF_DCMotor motor_esq, AF_DCMotor motor_dir, int SENSOR1, int SENSOR2, int SENSOR3);
+    void move_linha( AF_DCMotor motor_esq, AF_DCMotor motor_dir, int direcao, int forca_frente, int forca_volta);
 
 };
 
