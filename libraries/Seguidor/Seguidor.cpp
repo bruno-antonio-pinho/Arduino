@@ -8,45 +8,74 @@ Seguidor::Seguidor(void){
 //
 //Baseado no programa original de Michael McRoberts
 
-void Seguidor::move_linha(AF_DCMotor motor_esq, AF_DCMotor motor_dir, int SENSOR1, int SENSOR2, int SENSOR3){
+//direcao = 1 direita
+//direcao = 2 reto
+//direcao = 3 esquerda
+//direcao = 4 cruzamento, vira para direita
+//direcao = 5 cruzamento, vira para esquerda
 
-    
-  //le os sensores e adiciona os deslocamentos
-  //SENSOR1 = analogRead(8) + 200; //200 é o valor do offset
-  //SENSOR2 = analogRead(9) + 200;
-  //SENSOR3 = analogRead(10) + 200;
+void Seguidor::move_linha(AF_DCMotor motor_esq, AF_DCMotor motor_dir, int direcao, int forca_frente, int forca_volta){
 
-  int leftOffset = 200;
-  int rightOffset = 200;
-
-  // pra seguir reto
-  if (SENSOR2 > SENSOR1 & SENSOR2 > SENSOR3){
-      motor_esq.setSpeed(120);
-      motor_esq.run(FORWARD);
-      motor_dir.setSpeed(120);
-      motor_dir.run(FORWARD);
-  }
-
-  //Se SENSOR3 for maior do que o sensor do centro + limiar,
-// vire para a direita
-  if ((SENSOR3) > (SENSOR1+leftOffset))
-  {
-    motor_esq.setSpeed(80);
+  //SEGUIR RETO
+  if (direcao == 2) {
+    motor_esq.setSpeed(forca_frente);
     motor_esq.run(FORWARD);
-    motor_dir.setSpeed(140);
+    motor_dir.setSpeed(forca_frente);
     motor_dir.run(FORWARD);
+    return;
   }
 
   //Se SENSOR1 for maior do que o sensor do centro + limiar,
-// vire para a esquerda
-  if ((SENSOR1) > (SENSOR3+rightOffset))
-  {
-    motor_esq.setSpeed(140);
+  // vire para a direita
+  if (direcao == 1) {
+    motor_esq.setSpeed(forca_frente);
     motor_esq.run(FORWARD);
-    motor_dir.setSpeed(80);
+    motor_dir.setSpeed(0);
     motor_dir.run(FORWARD);
+    return;
   }
 
+  //Se SENSOR3 for maior do que o sensor do centro + limiar,
+  // vire para a esquerda
+  if (direcao == 3){
+    motor_esq.setSpeed(0);
+    motor_esq.run(FORWARD);
+    motor_dir.setSpeed(forca_frente);
+    motor_dir.run(FORWARD);
+    return;
+  }
+  
+  //cruzamento, vai pra direita
+    if (direcao == 4){
+    motor_esq.setSpeed(forca_frente);
+    motor_esq.run(FORWARD);
+    motor_dir.setSpeed(forca_volta);
+    motor_dir.run(BACKWARD);
+    return;
+  }
+  
+  //cruzamento, vai pra esquerda
+    if (direcao == 5){
+    motor_esq.setSpeed(forca_volta);
+    motor_esq.run(BACKWARD);
+    motor_dir.setSpeed(forca_frente);
+    motor_dir.run(FORWARD);
+    return;
+  }
+  
+    //cruzamento, volta um pouco
+    if (direcao == 6){
+    motor_esq.setSpeed(forca_frente);
+    motor_esq.run(BACKWARD);
+    motor_dir.setSpeed(forca_frente);
+    motor_dir.run(BACKWARD);
+    return;
+  }
+  
+    motor_esq.setSpeed(0);
+    motor_esq.run(FORWARD);
+    motor_dir.setSpeed(0);
+    motor_dir.run(FORWARD);
 }
 
 
